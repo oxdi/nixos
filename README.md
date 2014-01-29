@@ -1,45 +1,39 @@
-NixOS boxes for Vagrant
-=======================
+Base Cycle OS build scripts
+===========================
 
-[NixOS](http://nixos.org) is a linux distribution based on a purely functional
-package manager. This project builds .box images that can be used by
-[vagrant](http://vagrantup.com), the VM manager.
+Cycle's OS is based on [NixOS](http://nixos.org), a linux distribution with a purely functional
+package manager. 
 
-Status
-------
+These scripts build .box images that can be used by [vagrant](http://vagrantup.com), the VM manager, and ISO images that can be installed on bare metal.
 
-stable
-
-Install
--------
-
-```
-vagrant box add nixbox32 http://zimbatm.s3.amazonaws.com/nixbox/nixos32-virtualbox.box
-vagrant init nixbox32
-# or
-vagrant box add nixbox64 http://zimbatm.s3.amazonaws.com/nixbox/nixos64-virtualbox.box
-vagrant init nixbox64
-```
 
 Building the images
 -------------------
 
-First install [packer](http://packer.io) and
-[virtualbox](https://www.virtualbox.org/)
+First install [packer](http://packer.io) and [virtualbox](https://www.virtualbox.org/)
 
 Then:
 
 ```
-packer build nixbox32-template.json
-# or
-packer build nixbox64-template.json
+packer build cycle64-template.json
 ```
 
-The .box image is now ready to go and you can use it in vagrant:
+The .box image is now ready to go. Install it into Vagrant via:
 
 ```
-vagrant box add nixbox32 nixbox32-virtualbox.box
-# or
-vagrant box add nixbox64-nixbox64-virtualbox.box
+vagrant box add cycle64 cycle64-virtualbox.box
+```
+
+
+Running the images
+------------------
+
+To use the box with vagrant
+
+```
+cd /your/project/dir
+vagrant init cycle64
+vagrant up
+vagrant ssh
 ```
 

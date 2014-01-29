@@ -1,7 +1,7 @@
 {
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "boot_wait": "1m",
       "boot_command": [
         "root<enter>",
@@ -16,20 +16,20 @@
         "mkfs.ext4 -j -L nixos /dev/sda1<enter><wait5>",
         "mount LABEL=nixos /mnt<enter><wait>",
         "nixos-generate-config --root /mnt<enter><wait>",
-        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix | sed -e 's|nixbox|nixbox32|g' > /mnt/etc/nixos/configuration.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix | sed -e 's|nixbox|nixbox64|g' > /mnt/etc/nixos/configuration.nix<enter><wait>",
         "nixos-install && reboot<enter>"
       ],
       "guest_additions_mode": "disable",
-      "guest_os_type": "Linux",
+      "guest_os_type": "Gentoo_64",
       "http_directory": "http",
-      "iso_checksum": "c10f01734cb187e13068252e2cde565d",
+      "iso_checksum": "fbac8c11661028e6f9c4ec293e1329e1",
       "iso_checksum_type": "md5",
-      "iso_url": "http://nixos.org/releases/nixos/13.10/nixos-13.10.35455.45219b9/nixos-minimal-13.10.35455.45219b9-i686-linux.iso",
+      "iso_url": "http://nixos.org/releases/nixos/13.10/nixos-13.10.35455.45219b9/nixos-minimal-13.10.35455.45219b9-x86_64-linux.iso",
       "shutdown_command": "sudo shutdown -h now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "5m",
+      "ssh_wait_timeout": "10m",
       "virtualbox_version_file": ".vbox_version"
     }
   ],
@@ -43,7 +43,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "nixbox32-{{.Provider}}.box"
+      "output": "cycle64-{{.Provider}}.box"
     }
   ]
 }
