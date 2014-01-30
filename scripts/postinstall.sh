@@ -1,19 +1,21 @@
 #!/bin/sh
 
-# Make sure we are totally up to date
+# Checkout our nixpkg tree
+NIXREPO=/etc/nixos/oxdi
+mkdir -p $NIXREPO
+cd $NIXREPO
+git clone https://github.com/oxdi/nixpkgs.git
 
-nix-channel --add http://nixos.org/channels/nixos-13.10 nixos
-nixos-rebuild switch --upgrade
+# Update and initialize our new configuration
+nixos-rebuild -I nixos=$NIXREPO/nixos -I nixpkgs=$NIXREPO/nixpkgs switch
 
 # Cleanup any previous generations and delete old packages that can be
 # pruned.
-
 for x in `seq 0 2` ; do
     nix-env --delete-generations old
     nix-collect-garbage -d
 done
 
 # Zero out the disk (for better compression)
-
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -rf /EMPTY
