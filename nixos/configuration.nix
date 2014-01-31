@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+    ./hardware-configuration.nix 
+    ./sdk.nix
+  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -14,7 +17,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Virtualbox guess
+  # Virtualbox guest
   services.virtualbox.enable = true;
 
   # Enable DBus
@@ -35,8 +38,6 @@
   # Default packages
   environment.systemPackages = with pkgs; [
     git
-    subversion
-    vim
   ];
 
   # Creates a "vagrant" users with password-less sudo access

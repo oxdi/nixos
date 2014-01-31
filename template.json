@@ -22,9 +22,9 @@
       "guest_additions_mode": "disable",
       "guest_os_type": "Linux_64",
       "http_directory": "nixos",
-      "iso_checksum": "48395b4bd21675703c87cfae1feb68ed",
+      "iso_checksum": "e6193d70d283d05795cb07422689d1cd",
       "iso_checksum_type": "md5",
-      "iso_url": "http://releases.nixos.org/nixos/unstable/nixos-14.02pre38596.1dd0e05/nixos-minimal-14.02pre38596.1dd0e05-x86_64-linux.iso",
+      "iso_url": "http://releases.nixos.org/nixos/13.10/nixos-13.10.35608.1e7192a/nixos-minimal-13.10.35608.1e7192a-x86_64-linux.iso",
       "shutdown_command": "sudo shutdown -h now",
       "ssh_username": "root",
       "ssh_key_path": "keys/install.key",
@@ -47,7 +47,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "cycle64-{{.Provider}}.box"
+      "output": "cycle-13.10-x86_64-{{.Provider}}.box"
     }
   ]
 }
