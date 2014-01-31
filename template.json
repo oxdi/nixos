@@ -51,7 +51,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "cycle-13.10-x86_64-{{.Provider}}.box"
+      "output": "cycle-14.02-x86_64-{{.Provider}}.box"
     }
   ]
 }
