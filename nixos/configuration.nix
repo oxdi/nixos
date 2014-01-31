@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ ./hardware-configuration.nix ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -16,6 +13,9 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # Virtualbox guess
+  services.virtualbox.enable = true;
 
   # Enable DBus
   services.dbus.enable    = true;
@@ -57,15 +57,14 @@
     } ];
   };
 
-  security.sudo.configFile =
-    ''
-      Defaults:root,%wheel env_keep+=LOCALE_ARCHIVE
-      Defaults:root,%wheel env_keep+=NIX_PATH
-      Defaults:root,%wheel env_keep+=TERMINFO_DIRS
-      Defaults env_keep+=SSH_AUTH_SOCK
-      Defaults lecture = never
-      root   ALL=(ALL) SETENV: ALL
-      %wheel ALL=(ALL) NOPASSWD: ALL, SETENV: ALL
-    '';
+  security.sudo.configFile = ''
+    Defaults:root,%wheel env_keep+=LOCALE_ARCHIVE
+    Defaults:root,%wheel env_keep+=NIX_PATH
+    Defaults:root,%wheel env_keep+=TERMINFO_DIRS
+    Defaults env_keep+=SSH_AUTH_SOCK
+    Defaults lecture = never
+    root   ALL=(ALL) SETENV: ALL
+    %wheel ALL=(ALL) NOPASSWD: ALL, SETENV: ALL
+  '';
 
 }

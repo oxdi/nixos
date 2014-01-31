@@ -17,7 +17,7 @@ First install [packer](http://packer.io) and [virtualbox](https://www.virtualbox
 Then:
 
 ```
-packer build cycle64-template.json
+packer build template.json
 ```
 
 The .box image is now ready to go. Install it into Vagrant via:

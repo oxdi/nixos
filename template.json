@@ -2,7 +2,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "boot_wait": "2m",
+      "boot_wait": "1m",
       "boot_command": [
         "root<enter>",
         "stop sshd<enter>",
@@ -16,18 +16,18 @@
         "mkfs.ext4 -j -L nixos /dev/sda1<enter><wait5>",
         "mount LABEL=nixos /mnt<enter><wait>",
         "nixos-generate-config --root /mnt<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/basic.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
         "nixos-install && reboot<enter>"
       ],
       "guest_additions_mode": "disable",
-      "guest_os_type": "Gentoo_64",
-      "http_directory": "http",
-      "iso_checksum": "fbac8c11661028e6f9c4ec293e1329e1",
+      "guest_os_type": "Linux_64",
+      "http_directory": "nixos",
+      "iso_checksum": "48395b4bd21675703c87cfae1feb68ed",
       "iso_checksum_type": "md5",
       "iso_url": "http://releases.nixos.org/nixos/unstable/nixos-14.02pre38596.1dd0e05/nixos-minimal-14.02pre38596.1dd0e05-x86_64-linux.iso",
       "shutdown_command": "sudo shutdown -h now",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
+      "ssh_username": "root",
+      "ssh_key_path": "keys/install.key",
       "ssh_wait_timeout": "10m",
       "virtualbox_version_file": ".vbox_version"
     }
