@@ -16,8 +16,10 @@
         "mkfs.ext4 -j -L nixos /dev/sda1<enter><wait5>",
         "mount LABEL=nixos /mnt<enter><wait>",
         "nixos-generate-config --root /mnt<enter><wait>",
-        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/basic.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
-        "nixos-install && reboot<enter>"
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/guest-virtualbox.nix > /mnt/etc/nixos/guest.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.nix > /mnt/etc/nixos/vagrant.nix<enter><wait>",
+        "nix-env -i git && (cd /mnt/etc/nixos && git clone git://github.com/oxdi/nixpkgs.git) && nixos-install && reboot<enter>"
       ],
       "guest_additions_mode": "disable",
       "guest_os_type": "Linux_64",
@@ -27,8 +29,8 @@
       "iso_url": "http://releases.nixos.org/nixos/unstable/nixos-14.02pre38596.1dd0e05/nixos-minimal-14.02pre38596.1dd0e05-x86_64-linux.iso",
       "shutdown_command": "sudo shutdown -h now",
       "ssh_username": "root",
-      "ssh_key_path": "keys/install.key",
-      "ssh_wait_timeout": "10m",
+      "ssh_key_path": "keys/vagrant.key",
+      "ssh_wait_timeout": "20m",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "2048"],
@@ -37,11 +39,6 @@
     }
   ],
   "provisioners": [
-    {
-      "type": "file",
-      "source": "nixos/",
-      "destination": "/etc/nixos"
-    },
     {
       "type": "shell",
       "execute_command": "sudo sh '{{.Path}}'",
