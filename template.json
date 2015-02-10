@@ -1,55 +1,70 @@
 {
   "builders": [
     {
-      "type": "virtualbox-iso",
-      "boot_wait": "1m",
       "boot_command": [
         "root<enter>",
         "stop sshd<enter>",
         "fdisk /dev/sda<enter>",
-        "n",
-        "<enter><enter><enter><enter><enter>",
-        "a<enter>",
-        "1<enter>",
+        "n<enter>",
+        "p<enter><enter><enter>+512M<enter>t<enter>82<enter>",
+        "n<enter>",
+        "p<enter><enter><enter><enter>a<enter>2<enter>",
         "w<enter>",
         "<wait>",
-        "mkfs.ext4 -j -L nixos /dev/sda1<enter><wait5>",
+        "mkfs.ext4 -j -L nixos /dev/sda2<enter><wait5>",
+        "mkswap /dev/sda1<enter>",
+        "swapon<enter>",
         "mount LABEL=nixos /mnt<enter><wait>",
         "nixos-generate-config --root /mnt<enter><wait>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/guest-virtualbox.nix > /mnt/etc/nixos/guest.nix<enter><wait>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/users-vagrant.nix > /mnt/etc/nixos/users.nix<enter><wait>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.nix > /mnt/etc/nixos/vagrant.nix<enter><wait>",
-        "nixos-install && reboot<enter>"
+        "nixos-install<enter>",
+        "<wait>",
+        "myweirdpassword<enter>myweirdpassword<enter>",
+        "if [ $0 -eq 0 ]; then reboot; fi<enter>"
       ],
+      "boot_wait": "1m",
       "guest_additions_mode": "disable",
       "guest_os_type": "Linux_64",
       "http_directory": "nixos",
-      "iso_checksum": "48395b4bd21675703c87cfae1feb68ed",
-      "iso_checksum_type": "md5",
-      "iso_url": "http://releases.nixos.org/nixos/unstable/nixos-14.02pre38596.1dd0e05/nixos-minimal-14.02pre38596.1dd0e05-x86_64-linux.iso",
+      "iso_checksum": "417a2a953e637353479da5b53dc4228718b756415072f037f4606a8cad7be1eb",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://releases.nixos.org/nixos/14.12-small/nixos-14.12.373.65383e5/nixos-minimal-14.12.373.65383e5-x86_64-linux.iso",
       "shutdown_command": "sudo shutdown -h now",
-      "ssh_username": "root",
       "ssh_key_path": "keys/vagrant.key",
+      "ssh_username": "root",
       "ssh_wait_timeout": "20m",
-      "virtualbox_version_file": ".vbox_version",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "1024"],
-        ["modifyvm", "{{.Name}}", "--cpus", "2"]
-      ]
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "sudo sh '{{.Path}}'",
-      "script": "scripts/postinstall.sh"
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
     }
   ],
   "post-processors": [
     {
-      "type": "vagrant",
-      "output": "nixos-14.02-x86_64-{{.Provider}}.box"
+      "output": "nixos-14.12-x86_64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "sudo sh '{{.Path}}'",
+      "script": "scripts/postinstall.sh",
+      "type": "shell"
     }
   ]
 }
