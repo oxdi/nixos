@@ -5,6 +5,7 @@
       "boot_wait": "1m",
       "boot_command": [
         "root<enter>",
+        "set -e",
         "stop sshd<enter>",
         "fdisk /dev/sda<enter>",
         "n",
@@ -18,24 +19,22 @@
         "nixos-generate-config --root /mnt<enter><wait>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/guest-virtualbox.nix > /mnt/etc/nixos/guest.nix<enter><wait>",
-        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/users-vagrant.nix > /mnt/etc/nixos/users.nix<enter><wait>",
-        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.nix > /mnt/etc/nixos/vagrant.nix<enter><wait>",
         "nixos-install && reboot<enter>"
       ],
       "guest_additions_mode": "disable",
       "guest_os_type": "Linux_64",
       "http_directory": "nixos",
-      "iso_checksum": "48395b4bd21675703c87cfae1feb68ed",
-      "iso_checksum_type": "md5",
-      "iso_url": "http://releases.nixos.org/nixos/unstable/nixos-14.02pre38596.1dd0e05/nixos-minimal-14.02pre38596.1dd0e05-x86_64-linux.iso",
+      "iso_checksum": "53ee98b286b2243dfbfaed741dbd5892652d2945abaa684ee88af5da1b00ea29",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://releases.nixos.org/nixos/unstable/nixos-15.05pre58357.a869c83/nixos-minimal-15.05pre58357.a869c83-x86_64-linux.iso",
       "shutdown_command": "sudo shutdown -h now",
       "ssh_username": "root",
       "ssh_key_path": "keys/vagrant.key",
       "ssh_wait_timeout": "20m",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "1024"],
-        ["modifyvm", "{{.Name}}", "--cpus", "2"]
+        ["modifyvm", "{{.Name}}", "--memory", "2000"],
+        ["modifyvm", "{{.Name}}", "--cpus", "4"]
       ]
     }
   ],
@@ -49,7 +48,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "nixos-14.02-x86_64-{{.Provider}}.box"
+      "output": "nixos-15.05-x86_64-{{.Provider}}.box"
     }
   ]
 }
