@@ -9,9 +9,7 @@ env:
     - ATLAS_TOKEN=?? # use secure:
 
 install:
-  - wget --no-check-certificate \
-  -   --output-document packer.zip
-  -   $PACKER_DOWNLOAD/packer_0.8.2_linux_amd64.zip
+  - wget --no-check-certificate --output-document packer.zip $PACKER_DOWNLOAD/packer_0.8.2_linux_amd64.zip
   - unzip -d packer packer.zip
   - export PATH_$PATH:$PWD/packer
 
@@ -19,9 +17,7 @@ script:
   - packer build template.json
 
 before_deploy:
-  - wget --no-check-certificate \
-  -   --output-document atlas-upload-cli.tar.gz \
-  -   $ATLAS_DOWNLOAD/v0.2.0/atlas-upload-cli_0.2.0_linux_386.tar.gz
+  - wget --no-check-certificate --output-document atlas-upload-cli.tar.gz $ATLAS_DOWNLOAD/v0.2.0/atlas-upload-cli_0.2.0_linux_386.tar.gz
   - tar xzf atlas-upload-cli.tar.gz -C atlas-upload-cli
   - export PATH=$PATH:/$PWD/atlas-upload-cli
 
