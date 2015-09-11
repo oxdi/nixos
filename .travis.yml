@@ -11,7 +11,7 @@ env:
 install:
   - wget --no-check-certificate --output-document packer.zip $PACKER_DOWNLOAD/packer_0.8.2_linux_amd64.zip
   - unzip -d packer packer.zip
-  - export PATH_$PATH:$PWD/packer
+  - export PATH=$PATH:$PWD/packer
 
 script:
   - packer build template.json
