@@ -9,6 +9,7 @@ env:
     - ATLAS_TOKEN=?? # use secure:
 
 install:
+  - sudo apt-get install virtualbox
   - wget --no-check-certificate --output-document packer.zip $PACKER_DOWNLOAD/packer_0.8.2_linux_amd64.zip
   - unzip -d packer packer.zip
   - export PATH=$PATH:$PWD/packer
