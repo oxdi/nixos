@@ -9,7 +9,6 @@ env:
     - ATLAS_TOKEN=?? # use secure:
 
 install:
-  - bundle install
   - wget --no-check-certificate \
   -   --output-document packer.zip
   -   $PACKER_DOWNLOAD/packer_0.8.2_linux_amd64.zip
